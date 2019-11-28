@@ -67,10 +67,11 @@ struct State{
 	uint32_t width; // width
 	uint32_t height; // height
 };
-typedef struct State StateType;
-StateType sprite[1] = {
-	{0,10, naruto, 16, 18}, // Player sprite
 
+typedef struct State StateType;
+StateType sprite[2] = {
+	{0,10, naruto, 16, 18}, // Player sprite
+	{30, 32, SmallEnemy10pointA, 16,10}
 };
 
 uint32_t Convert(uint32_t input){
@@ -81,7 +82,7 @@ uint32_t Convert(uint32_t input){
 }
 
 void SysTick_Handler(void){
-	// SysTick_Handler generates sprites for the game
+	// SysTick_Handler samples the ADC
 	GPIO_PORTF_DATA_R ^= 0x04;
 	xADCMail = yADC_In();
 	yADCMail = xADC_In();
@@ -91,9 +92,13 @@ void SysTick_Handler(void){
 void DrawPlayer(void){
 	sprite[0].x = sprite[0].x - xPosition;
 	sprite[0].y = sprite[0].y - yPosition; // subtract because y is flipped on joystick for some reason
-
 	ST7735_DrawBitmap(sprite[0].x, sprite[0].y, sprite[0].image, sprite[0].width,sprite[0].height);	
-	
+}
+
+void DrawBoss(void){
+	sprite[1].x = sprite[1].x;
+	sprite[1].y = sprite[1].y; // subtract because y is flipped on joystick for some reason
+	ST7735_DrawBitmap(sprite[1].x, sprite[1].y, sprite[1].image, sprite[1].width,sprite[1].height);	
 }
 
 //check collision method
@@ -131,7 +136,8 @@ int main(void){
   //ST7735_DrawBitmap(100, 9, SmallEnemy30pointB, 16,10);
 while(1){
 	while(ADCStatus != 1){}
-		DrawPlayer();
+		
+		// ***** NEXT PART IS FOR TESTING
 		//x
     xPosition = Convert(xADCMail); 
 		ADCStatus = 0; // clear flag
@@ -151,10 +157,17 @@ while(1){
 		
 		ST7735_SetCursor(0,10);
 		LCD_OutDec(yADCMail);
+		//************* END OF TESTING PART*********
 		
+		// ** DRAWING SPRITES STARTS HERE
+		DrawPlayer();
+		DrawBoss();
+		if(CheckCollision(&sprite[0], &sprite[1]) == 1){
+			ST7735_SetCursor(2,1);
+			ST7735_OutString("Collision!");
+		}
+
 
 	}
 }
-
-// Initialize Port F so PF1, PF2 and PF3 are heartbeats
 
