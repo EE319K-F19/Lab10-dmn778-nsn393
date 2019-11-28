@@ -1,21 +1,3 @@
-Skip to content
-Search or jump to…
-
-Pull requests
-Issues
-Marketplace
-Explore
- 
-@dmn778 
-0
-00EE319K-F19/Lab10-dmn778-nsn393 Private
- Code Issues 0 Pull requests 0 Actions Projects 0 Wiki Security Insights Settings
-Lab10-dmn778-nsn393/Lab8.c
-@megahugestrike megahugestrike Add files via upload
-cfe67cc 1 minute ago
-@dmn778@megahugestrike
-173 lines (141 sloc)  4.8 KB
-  
 // Lab8.c
 // Runs on LM4F120 or TM4C123
 // Student names: Neil Narvekar
@@ -84,13 +66,15 @@ struct State{
 	const unsigned short *image; // ptr to image
 	uint32_t width; // width
 	uint32_t height; // height
+	int32_t xvelocity;
+	int32_t yvelocity;
 };
-#define NARUTO 0
-#define SM_ENEMY 1
+
 typedef struct State StateType;
-StateType sprite[2] = {
+StateType sprite[3] = {
 	{0,10, naruto, 16, 18}, // Player sprite
-	{30, 32, SmallEnemy10pointA, 16,10}
+	{30, 32, SmallEnemy10pointA, 16,10},
+	{30, 32, SmallEnemy10pointA, 16,10,1,1}
 };
 
 uint32_t Convert(uint32_t input){
@@ -116,9 +100,16 @@ void DrawPlayer(void){
 
 void DrawBoss(void){
 	sprite[1].x = sprite[1].x;
-	sprite[1].y = sprite[1].y; // subtract because y is flipped on joystick for some reason
+	sprite[1].y = sprite[1].y; 
 	ST7735_DrawBitmap(sprite[1].x, sprite[1].y, sprite[1].image, sprite[1].width,sprite[1].height);	
 }
+
+void DrawAttack(num){
+	sprite[num].x = sprite[num].x + sprite[num].xvelocity;
+	sprite[num].y = sprite[num].y + sprite[num].yvelocity;; 
+	ST7735_DrawBitmap(sprite[num].x, sprite[num].y, sprite[num].image, sprite[num].width,sprite[num].height);	
+}
+
 
 //check collision method
 //returns 1 if collision between the two sprites is detected
@@ -189,6 +180,7 @@ while(1){
 		// ** DRAWING SPRITES STARTS HERE
 		DrawPlayer();
 		DrawBoss();
+		DrawAttack(2);
 		if(CheckCollision(&sprite[0], &sprite[1]) == 1){
 			ST7735_SetCursor(2,1);
 			ST7735_OutString("Collision!");
@@ -197,3 +189,4 @@ while(1){
 
 	}
 }
+
