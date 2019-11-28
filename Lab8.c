@@ -1,3 +1,21 @@
+Skip to content
+Search or jump to…
+
+Pull requests
+Issues
+Marketplace
+Explore
+ 
+@dmn778 
+0
+00EE319K-F19/Lab10-dmn778-nsn393 Private
+ Code Issues 0 Pull requests 0 Actions Projects 0 Wiki Security Insights Settings
+Lab10-dmn778-nsn393/Lab8.c
+@megahugestrike megahugestrike Add files via upload
+cfe67cc 1 minute ago
+@dmn778@megahugestrike
+173 lines (141 sloc)  4.8 KB
+  
 // Lab8.c
 // Runs on LM4F120 or TM4C123
 // Student names: Neil Narvekar
@@ -67,7 +85,8 @@ struct State{
 	uint32_t width; // width
 	uint32_t height; // height
 };
-
+#define NARUTO 0
+#define SM_ENEMY 1
 typedef struct State StateType;
 StateType sprite[2] = {
 	{0,10, naruto, 16, 18}, // Player sprite
@@ -105,10 +124,18 @@ void DrawBoss(void){
 //returns 1 if collision between the two sprites is detected
 //0 otherwise
 int CheckCollision(struct State *rect1, struct State *rect2){
-	if (rect1->x < rect2->x + rect2->width &&
-   rect1->x + rect1->width > rect2->x &&
-   rect1->y < rect2->y + rect2->height &&
-   rect1->y + rect1->height > rect2->y) {
+	int32_t r1_x = rect1->x + 2; //to account for 2 pixel wide black rectangle on each side of sprite
+	int32_t r1_y = rect1->y + 1; // 1 pixel wide rectangle above and below
+	int32_t r2_x = rect2->x + 2;
+	int32_t r2_y = rect2->y + 1;
+	uint32_t r1_width = rect1->width - 4;
+	uint32_t r1_height = rect1->height - 2;
+	uint32_t r2_width = rect2->width - 4;
+	uint32_t r2_height = rect2->height - 2;
+	if (r1_x < r2_x + r2_width &&
+   r1_x + r1_width > r2_x&&
+   r1_y < r2_y + r2_height &&
+   r1_y + r1_height > r2_y) {
     // collision detected!
 		 return 1;
 	}
@@ -170,4 +197,3 @@ while(1){
 
 	}
 }
-
