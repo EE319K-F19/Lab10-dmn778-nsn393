@@ -219,9 +219,9 @@ ARM Macro Assembler    Page 4
 Command Line: --debug --xref --diag_suppress=9931 --cpu=Cortex-M4 --apcs=interw
 ork --depend=.\lcd.d -o.\lcd.o -I.\RTE\_Lab8 -IC:\Users\neil\AppData\Local\Arm\
 Packs\ARM\CMSIS\5.5.1\CMSIS\Core\Include -IC:\Users\neil\AppData\Local\Arm\Pack
-s\Keil\TM4C_DFP\1.1.0\Device\Include\TM4C123 --predefine="__EVAL SETA 1" --pred
-efine="__UVISION_VERSION SETA 528" --predefine="_RTE_ SETA 1" --predefine="TM4C
-123GH6PM SETA 1" --list=.\lcd.lst LCD.s
+s\Keil\TM4C_DFP\1.1.0\Device\Include\TM4C123 --predefine="__UVISION_VERSION SET
+A 528" --predefine="_RTE_ SETA 1" --predefine="TM4C123GH6PM SETA 1" --list=.\lc
+d.lst LCD.s
 
 
 
@@ -350,4 +350,4 @@ Absolute symbols
 
 Comment: SSI_SR_TNF unused
 7 symbols
-349 symbols in table
+348 symbols in table

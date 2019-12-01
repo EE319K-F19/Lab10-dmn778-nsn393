@@ -13,23 +13,16 @@
 #include <stdint.h>
 #include "ST7735.h"
 
-void Delay1ms(uint32_t n);
-void delay(void);
-
-//------------IO_Init------------
-// Initialize GPIO Port for a switch and an LED
-// Input: none
-// Output: none
-void IO_Init(void) {
- // --UUU-- Code to initialize PF4 and PF2. Pf4 is a negative logic switch
+void PortF_Init(void){
 	SYSCTL_RCGCGPIO_R |= 0x20; // port f clock
 	while((SYSCTL_RCGCGPIO_R & 0x20) != 0x20){}
 		GPIO_PORTF_DIR_R &= ~0x10; //pf4 input
 		GPIO_PORTF_DIR_R |= 0x04; //pf2 heartbeat output
 		GPIO_PORTF_DEN_R |= 0x14; //enable 
 		GPIO_PORTF_PUR_R |= 0x10; //pull up resistor
-	
+
 }
+
 
 //------------IO_HeartBeat------------
 // Toggle the output state of the  LED.
@@ -46,18 +39,11 @@ void IO_HeartBeat(void) {
 // Delay to debounce the switch
 // Input: none
 // Output: none
-void IO_Touch(void) {
- // --UUU-- wait for release; delay for 20ms; and then wait for press of PF4
-	while((GPIO_PORTF_DATA_R & 0x10) == 0x10){}
-	Delay1ms(30);
-	while((GPIO_PORTF_DATA_R & 0x10) != 0x10){} // if released (negative logic)	
+uint32_t button(void) {
+ // if pressed return 1, else return 0
+	if((GPIO_PORTF_DATA_R & 0x10) == 0x10){
+		return 0;
 	}
-
-
-void delay(void) {
-	uint32_t counter =100000;
-	while(counter > 0){
-		counter--;
-	}
+	return 1;
 }
 

@@ -412,17 +412,40 @@
               <FileType>1</FileType>
               <FilePath>.\ST7735.c</FilePath>
             </File>
+            <File>
+              <FileName>random.s</FileName>
+              <FileType>2</FileType>
+              <FilePath>.\random.s</FilePath>
+            </File>
+            <File>
+              <FileName>IO.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\IO.h</FilePath>
+            </File>
+            <File>
+              <FileName>IO.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\IO.c</FilePath>
+            </File>
+            <File>
+              <FileName>PLL.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\PLL.c</FilePath>
+            </File>
+            <File>
+              <FileName>TExaS.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\TExaS.h</FilePath>
+            </File>
+            <File>
+              <FileName>BossAttacks.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\BossAttacks.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
           <GroupName>Object code</GroupName>
-          <Files>
-            <File>
-              <FileName>texas.o</FileName>
-              <FileType>3</FileType>
-              <FilePath>.\texas.o</FilePath>
-            </File>
-          </Files>
         </Group>
         <Group>
           <GroupName>::CMSIS</GroupName>
