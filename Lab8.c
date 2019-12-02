@@ -55,8 +55,8 @@ struct State{
 	int32_t y; // y position
 	const unsigned short *image; // ptr to image
 	const unsigned short *dead; // ptr to image
-	uint32_t width; // width
-	uint32_t height; // height
+	const int32_t width; // width
+	const int32_t height; // height
 	int32_t xvelocity;
 	int32_t yvelocity;
 	uint8_t moving;
@@ -64,51 +64,55 @@ struct State{
 };
 
 typedef struct State StateType;
-StateType sprite[3] = {
-	{60,120, naruto,0, 16,18,0,0,0,5}, // Player s`prite
-	{60, 32, SmallEnemy10pointA,blackSmallEnemy10pointA, 16,10,0,0,0,5}, // Boss Sprite
-	{0, 0, blackSmallEnemy10pointA,blackSmallEnemy10pointA, 16,10,0,0,0,0} // Boss Sprite
+StateType sprite[2] = {
+	{60,120, naruto,0, 14,16,0,0,0,15}, // Player s`prite
+	{60, 32, guitar_small,blackSmallEnemy10pointA, guitarwidth,guitarheight,0,0,0,15}, // Boss Sprite
 };
 
-const uint32_t PlayerAttackStructSize = 10;
+const uint32_t PlayerAttackStructSize = 15;
 // MAX AMOUNT OF PLAYER ATTACKS = PlayerAttackStructSize
 typedef struct State StateType;
 StateType PlayerAttack[PlayerAttackStructSize] = {
-	{0, 0, SmallEnemy10pointA,blackSmallEnemy10pointA, 16,10,0,-1,0}, // Player attack 1
-	{0, 0, SmallEnemy10pointA,blackSmallEnemy10pointA, 16,10,0,-1,0}, // Player attack 2
-	{0, 0, SmallEnemy10pointA,blackSmallEnemy10pointA, 16,10,0,-1,0}, // Player attack ... etc.
-	{0, 0, SmallEnemy10pointA,blackSmallEnemy10pointA, 16,10,0,-1,0}, // Player attack
-	{0, 0, SmallEnemy10pointA,blackSmallEnemy10pointA, 16,10,0,-1,0}, // Player attack
-	{0, 0, SmallEnemy10pointA,blackSmallEnemy10pointA, 16,10,0,-1,0}, // Player attack
-	{0, 0, SmallEnemy10pointA,blackSmallEnemy10pointA, 16,10,0,-1,0}, // Player attack
-	{0, 0, SmallEnemy10pointA,blackSmallEnemy10pointA, 16,10,0,-1,0}, // Player attack
-	{0, 0, SmallEnemy10pointA,blackSmallEnemy10pointA, 16,10,0,-1,0}, // Player attack
-	{0, 0, SmallEnemy10pointA,blackSmallEnemy10pointA, 16,10,0,-1,0}, // Player attack                                            
+	{0, 0, playerattack,deadplayerattack,playerattackwidth,playerattackheight,0,-1,0}, // Player attack 1
+	{0, 0, playerattack,deadplayerattack,playerattackwidth,playerattackheight,0,-1,0}, // Player attack 2
+	{0, 0, playerattack,deadplayerattack,playerattackwidth,playerattackheight,0,-1,0}, // Player attack ... etc.
+	{0, 0, playerattack,deadplayerattack,playerattackwidth,playerattackheight,0,-1,0}, // Player attack
+	{0, 0, playerattack,deadplayerattack,playerattackwidth,playerattackheight,0,-1,0}, // Player attack
+	{0, 0, playerattack,deadplayerattack,playerattackwidth,playerattackheight,0,-1,0}, // Player attack
+	{0, 0, playerattack,deadplayerattack,playerattackwidth,playerattackheight,0,-1,0}, // Player attack
+	{0, 0, playerattack,deadplayerattack,playerattackwidth,playerattackheight,0,-1,0}, // Player attack
+	{0, 0, playerattack,deadplayerattack,playerattackwidth,playerattackheight,0,-1,0}, // Player attack
+	{0, 0, playerattack,deadplayerattack,playerattackwidth,playerattackheight,0,-1,0}, // Player attack     
+	{0, 0, playerattack,deadplayerattack,playerattackwidth,playerattackheight,0,-1,0}, // Player attack 
+	{0, 0, playerattack,deadplayerattack,playerattackwidth,playerattackheight,0,-1,0}, // Player attack 
+	{0, 0, playerattack,deadplayerattack,playerattackwidth,playerattackheight,0,-1,0}, // Player attack 
+	{0, 0, playerattack,deadplayerattack,playerattackwidth,playerattackheight,0,-1,0}, // Player attack 
+	{0, 0, playerattack,deadplayerattack,playerattackwidth,playerattackheight,0,-1,0}, // Player attack 
 };
 
 const uint32_t StraightAttackStructSize = 5;
 typedef struct State StateType;
 StateType BossAttack[StraightAttackStructSize] = {
-	{0, 0, SmallEnemy10pointA,blackSmallEnemy10pointA, 16,10,0,1,0}, // straight attacks
-	{0, 0, SmallEnemy10pointA,blackSmallEnemy10pointA, 16,10,0,1,0},
-	{0, 0, SmallEnemy10pointA,blackSmallEnemy10pointA, 16,10,0,1,0},
-	{0, 0, SmallEnemy10pointA,blackSmallEnemy10pointA, 16,10,0,1,0}, 
-	{0, 0, SmallEnemy10pointA,blackSmallEnemy10pointA, 16,10,0,1,0},                                        
+	{0, 0, bossattack,blackbossattack, bossattackwidth,bossattackheight,0,1,0}, // straight attacks
+	{0, 0, bossattack,blackbossattack, bossattackwidth,bossattackheight,0,1,0},
+	{0, 0, bossattack,blackbossattack, bossattackwidth,bossattackheight,0,1,0},
+	{0, 0, bossattack,blackbossattack, bossattackwidth,bossattackheight,0,1,0}, 
+	{0, 0, bossattack,blackbossattack, bossattackwidth,bossattackheight,0,1,0},                                        
 };
 
 const uint32_t WaveAttackStructSize = 10;
 typedef struct State StateType;
 StateType WaveAttackStruct[WaveAttackStructSize] = {
-	{32, 32, SmallEnemy10pointA,blackSmallEnemy10pointA, 16,10,0,1,0}, // WAVE attacks
-	{28, 32, SmallEnemy10pointA,blackSmallEnemy10pointA, 16,10,0,1,0}, 
-	{24, 32, SmallEnemy10pointA,blackSmallEnemy10pointA, 16,10,0,1,0},
-	{28, 32, SmallEnemy10pointA,blackSmallEnemy10pointA, 16,10,0,1,0},
-	{32, 32, SmallEnemy10pointA,blackSmallEnemy10pointA, 16,10,0,1,0}, 
-	{36, 32, SmallEnemy10pointA,blackSmallEnemy10pointA, 16,10,0,1,0}, 
-	{40, 32, SmallEnemy10pointA,blackSmallEnemy10pointA, 16,10,0,1,0}, 
-	{36, 32, SmallEnemy10pointA,blackSmallEnemy10pointA, 16,10,0,1,0}, 
-	{32, 32, SmallEnemy10pointA,blackSmallEnemy10pointA, 16,10,0,1,0}, 
-	{28, 32, SmallEnemy10pointA,blackSmallEnemy10pointA, 16,10,0,1,0}, 
+	{32, 32, bossattack,blackbossattack, bossattackwidth,bossattackheight,0,1,0}, // WAVE attacks
+	{28, 32, bossattack,blackbossattack, bossattackwidth,bossattackheight,0,1,0}, 
+	{24, 32, bossattack,blackbossattack, bossattackwidth,bossattackheight,0,1,0},
+	{28, 32, bossattack,blackbossattack, bossattackwidth,bossattackheight,0,1,0},
+	{32, 32, bossattack,blackbossattack, bossattackwidth,bossattackheight,0,1,0}, 
+	{36, 32, bossattack,blackbossattack, bossattackwidth,bossattackheight,0,1,0}, 
+	{40, 32, bossattack,blackbossattack, bossattackwidth,bossattackheight,0,1,0}, 
+	{36, 32, bossattack,blackbossattack, bossattackwidth,bossattackheight,0,1,0}, 
+	{32, 32, bossattack,blackbossattack, bossattackwidth,bossattackheight,0,1,0}, 
+	{28, 32, bossattack,blackbossattack, bossattackwidth,bossattackheight,0,1,0}, 
 };
 
 
@@ -153,6 +157,11 @@ uint32_t xRandom(void){
 uint32_t yRandom(void){
 	// y goes from 0-160, Random() goes from 0 to 255
 	uint32_t ran = Random()*160/255;
+	return ran;
+}
+uint32_t BinaryRandom(void){
+	// y goes from 0-160, Random() goes from 0 to 1
+	uint32_t ran = Random()/(255/2);
 	return ran;
 }
 
@@ -202,16 +211,21 @@ void DAC_Out(uint32_t data){
 int32_t Index=0;
 void Timer1A_Handler(void){
   TIMER1_ICR_R = TIMER_ICR_TATOCINT;  // acknowledge timer0A timeout
-	DAC_Out(sniper_shot[Index]);
-	Index=(Index+1)%18925;
+//	DAC_Out(mystical_tiny[Index]);
+	Index=(Index+1)%songlength;
+	//DAC_Out(sniper_shot[Index]);
+	//Index=(Index+1)%18925;
 	
 }
 
 
 // -------Draw Player Sprite Function
 void DrawPlayer(void){
-	uint32_t i,speed=2;
+	uint32_t i,speed=3;
 	for(i=0;i<speed;i++){
+		if((sprite[0].x - xPosition) < 0 || (sprite[0].x - xPosition +sprite[0].width - 2 > 128) || ((sprite[0].y - yPosition - sprite[0].height) < 0) || (sprite[0].y - yPosition > 160)){
+			break;
+		}
 		sprite[0].x = sprite[0].x - xPosition;
 		sprite[0].y = sprite[0].y - yPosition; // subtract because y is flipped on joystick for some reason
 		ST7735_DrawBitmap(sprite[0].x, sprite[0].y, sprite[0].image, sprite[0].width,sprite[0].height);	
@@ -223,9 +237,25 @@ void DrawPlayer(void){
 
 //-----Draw Boss Sprite Function
 void DrawBoss(void){
-	sprite[1].x = sprite[1].x + sprite[1].xvelocity;
-	sprite[1].y = sprite[1].y + sprite[1].yvelocity;; 
-	ST7735_DrawBitmap(sprite[1].x, sprite[1].y, sprite[1].image, sprite[1].width,sprite[1].height);	
+	uint32_t i,speed=1;
+	uint32_t flag = 0;
+	if(Random() < 15){
+		sprite[1].xvelocity = -1;
+	}
+	if(Random() > 245){
+		sprite[1].xvelocity = 1;
+	}
+	
+	for(i=0;i<speed;i++){
+		if(((sprite[1].x + sprite[1].xvelocity) < 15  || (sprite[1].x +  sprite[1].xvelocity +sprite[1].width > 110))){
+			sprite[1].xvelocity *= -1;
+			flag = 1;
+		}
+		sprite[1].x = sprite[1].x + sprite[1].xvelocity;
+		sprite[1].y = sprite[1].y + sprite[1].yvelocity;; 
+		ST7735_DrawBitmap(sprite[1].x, sprite[1].y, sprite[1].image, sprite[1].width,sprite[1].height);	
+	}
+	sprite[1].xvelocity = 0;
 }
 
 
@@ -234,12 +264,12 @@ uint32_t pa=0;
 void DrawPlayerAttack(void){
 	// Draws an attack to fly across screen
 	// Arguement is which attack it is in the array
-	uint32_t i=0,j,speed=2;
+	uint32_t i=0,j,speed=4;
 	
 	if(PlayerAttackFlag > 10){ // check to see button held long enough
 		if(PlayerAttack[pa].moving == 0){ // if not moving already
-			PlayerAttack[pa].x = sprite[0].x; // put attack where player is
-			PlayerAttack[pa].y = sprite[0].y; 
+			PlayerAttack[pa].x = sprite[0].x+4; // put attack where player is
+			PlayerAttack[pa].y = sprite[0].y-sprite[0].height; 
 			ST7735_DrawBitmap(PlayerAttack[pa].x, PlayerAttack[pa].y, PlayerAttack[pa].image, PlayerAttack[pa].width,PlayerAttack[pa].height);
 			PlayerAttack[pa].moving = 1; // set the attack to moving
 			
@@ -253,6 +283,7 @@ void DrawPlayerAttack(void){
 				PlayerAttack[i].x = PlayerAttack[i].x + PlayerAttack[i].xvelocity; // move the attack
 				PlayerAttack[i].y = PlayerAttack[i].y + PlayerAttack[i].yvelocity; 
 				ST7735_DrawBitmap(PlayerAttack[i].x, PlayerAttack[i].y, PlayerAttack[i].image, PlayerAttack[i].width,PlayerAttack[i].height);	
+				
 				if(CheckCollision(&sprite[1], &PlayerAttack[i]) == 1){
 					PlayerAttack[i].moving = 0; // the attack collides with the boss sprite, make it not move anymore
 					ST7735_DrawBitmap(PlayerAttack[i].x, PlayerAttack[i].y, PlayerAttack[i].dead, PlayerAttack[i].width,PlayerAttack[i].height);
@@ -294,12 +325,12 @@ void StraightAttack(void){
 				ST7735_DrawBitmap(BossAttack[i].x, BossAttack[i].y, BossAttack[i].image, BossAttack[i].width,BossAttack[i].height);	
 				if(CheckCollision(&sprite[0], &BossAttack[i]) == 1){
 					BossAttack[i].moving = 0; // the attack collides with the player sprite, make it not move anymore
-					ST7735_DrawBitmap(BossAttack[i].x, BossAttack[i].y, PlayerAttack[i].dead, BossAttack[i].width,BossAttack[i].height);	// when collides, disappear
+					ST7735_DrawBitmap(BossAttack[i].x, BossAttack[i].y, BossAttack[i].dead, BossAttack[i].width,BossAttack[i].height);	// when collides, disappear
 					sprite[0].health--; // player takes damage
 				}
 				if((BossAttack[i].x < 0) || (BossAttack[i].x > 128) || (BossAttack[i].y < 0) || (BossAttack[i].y > 160) ){
 					BossAttack[i].moving = 0; // if the attack is offscreen, make it not move anymore
-					ST7735_DrawBitmap(BossAttack[i].x, BossAttack[i].y, PlayerAttack[i].dead, BossAttack[i].width,BossAttack[i].height);	// when collides, disappear
+					ST7735_DrawBitmap(BossAttack[i].x, BossAttack[i].y, BossAttack[i].dead, BossAttack[i].width,BossAttack[i].height);	// when collides, disappear
 				}
 			}
 		}
@@ -312,9 +343,54 @@ void StraightAttack(void){
 // --------- WAVE SHOT ATTACK----------------
 int32_t waveinitx[WaveAttackStructSize] = {30,26,22,26,30,34,38,34,30,26};
 int32_t waveinity[WaveAttackStructSize] = {32,32,32,32,32,32,32,32,32,32};
-uint32_t wavei=0,j,speed=2;
+uint32_t wavei=0;
+void WaveAttackInit(void){
+	uint32_t i,x,y,xstart;
+	x = xRandom();
+	y = yRandom();
+	if(BinaryRandom() == 1){ // THIS SHOOTS FROM TOP
+		for(i=0;i<WaveAttackStructSize;i++){
+			WaveAttackStruct[i].y = 30;
+			WaveAttackStruct[i].xvelocity = 0;
+			WaveAttackStruct[i].yvelocity = 1;
+		}
+		WaveAttackStruct[0].x = x;
+		WaveAttackStruct[1].x = x-4;
+		WaveAttackStruct[2].x = x-8;
+		WaveAttackStruct[3].x = x-4;
+		WaveAttackStruct[4].x = x;
+		WaveAttackStruct[5].x = x+4;
+		WaveAttackStruct[6].x = x+8;
+		WaveAttackStruct[7].x = x+4;
+		WaveAttackStruct[8].x = x;
+		WaveAttackStruct[9].x = x-4;
+	}else{ // THIS SHOOTS FROM SIDE
+		if(BinaryRandom() == 1){
+			xstart = 0;
+		}else{
+		xstart = 160;
+		}
+		for(i=0;i<WaveAttackStructSize;i++){
+			WaveAttackStruct[i].x = xstart;
+			WaveAttackStruct[i].xvelocity = 1;
+			WaveAttackStruct[i].yvelocity = 0;
+		}
+		WaveAttackStruct[0].y = y;
+		WaveAttackStruct[1].y = y-4;
+		WaveAttackStruct[2].y = y-8;
+		WaveAttackStruct[3].y = y-4;
+		WaveAttackStruct[4].y = y;
+		WaveAttackStruct[5].y = y+4;
+		WaveAttackStruct[6].y = y+8;
+		WaveAttackStruct[7].y = y+4;
+		WaveAttackStruct[8].y = y;
+		WaveAttackStruct[9].y = y-4;
+	}
+}
+
+
 void WaveAttack(void){
-	uint32_t i,temp;
+	uint32_t i,j,speed=3;
 	if(waveattackflag >= 1){ // use flag to time attacks
 		if(WaveAttackStruct[wavei].moving == 0){ // if not moving already
 				//WaveAttackStruct[wavei].x = sprite[1].x; // put attack where it starts
@@ -334,69 +410,70 @@ void WaveAttack(void){
 				
 				if(CheckCollision(&sprite[0], &WaveAttackStruct[i]) == 1){
 					WaveAttackStruct[i].moving = 0; // the attack collides with the player sprite, make it not move anymore
-					ST7735_DrawBitmap(WaveAttackStruct[i].x, WaveAttackStruct[i].y, PlayerAttack[i].dead, WaveAttackStruct[i].width,WaveAttackStruct[i].height);	// when collides, disappear
+					ST7735_DrawBitmap(WaveAttackStruct[i].x, WaveAttackStruct[i].y, WaveAttackStruct[i].dead, WaveAttackStruct[i].width,WaveAttackStruct[i].height);	// when collides, disappear
 					sprite[0].health--; // player takes damage
 				}
 				if((WaveAttackStruct[i].x < 0) || (WaveAttackStruct[i].x > 128) || (WaveAttackStruct[i].y < 0) || (WaveAttackStruct[i].y > 160) ){
 					WaveAttackStruct[i].moving = 0; // if the attack is offscreen, make it not move anymore
-					ST7735_DrawBitmap(WaveAttackStruct[i].x, WaveAttackStruct[i].y, PlayerAttack[i].dead, WaveAttackStruct[i].width,WaveAttackStruct[i].height);	// when collides, disappear		
+					ST7735_DrawBitmap(WaveAttackStruct[i].x, WaveAttackStruct[i].y, WaveAttackStruct[i].dead, WaveAttackStruct[i].width,WaveAttackStruct[i].height);	// when collides, disappear		
 				}
 			}
 		}
 	}
 	if((wavei >= WaveAttackStructSize) && (WaveAttackStruct[WaveAttackStructSize-1].moving == 0)){ // game can only hold a number of attacks equal to StraightAttackStructSize
 		wavei = 0;
-		for(i=0;i<WaveAttackStructSize;i++){
-			temp = waveinitx[i];
-			WaveAttackStruct[i].x = temp;
-			temp = waveinity[i];
-			WaveAttackStruct[i].y = temp;
-		}
+		WaveAttackInit();
+		
 	}
 }
 
 void CheckEnd(void){
 		ST7735_SetCursor(0,0);
 		ST7735_OutString("Your Health:");
+		if(sprite[0].health < 10){
+			LCD_OutDec(0);
+		}
 		LCD_OutDec(sprite[0].health);
 		ST7735_SetCursor(0,1);
 		ST7735_OutString("Boss Health:");
+		if(sprite[1].health < 10){
+			LCD_OutDec(0);
+		}
 		LCD_OutDec(sprite[1].health);
 		
 		if(sprite[0].health <= 0){ // if your health becomes 0
+			ST7735_FillScreen(0x00);
 			ST7735_SetCursor(0,5);
 			ST7735_OutString("You Lose");
 			while(1){}
 		}
 		if(sprite[1].health <= 0){ // if boss health becomes 0
+			ST7735_FillScreen(0x00);
 			ST7735_SetCursor(0,5);
 			ST7735_OutString("You Win");
 			while(1){}	
 		}
 }
 
-uint32_t ClockSpeed(uint32_t freq){
-	// bus frequency is 400000000/(400/(freq-1))
-	return 400000000/(400/(freq-1));
-}
 
-uint32_t DesiredClockSpeed = 9000000;
+
 int main(void){
   DisableInterrupts();
-	PLL_Init(ClockSpeed(DesiredClockSpeed));       // Bus clock is 9000000 HZ at 10
+	PLL_Init(10);       // Bus clock is 9000000 HZ at 10
   Output_Init();
 	PortF_Init();
 	ADC_Init();
-	DAC_Init();
+ 	DAC_Init();
 	SysTick_Init();
 	Timer0A_Init(0xFFFFFF);
-	Timer1A_Init(DesiredClockSpeed/11025); //11.025 kHz = 11025 = 9000000/x x=816
+	Timer1A_Init(2950); //11.025 kHz = 11025 = 9000000/x x=816
 	Random_Init(NVIC_ST_CURRENT_R);
   EnableInterrupts();
+	WaveAttackInit();
 	//ST7735_InitR(INITR_REDTAB); 
   ST7735_FillScreen(0x00);            // set screen to black
 	
-	/*
+	
 	// TITLE SCREEN
 		ST7735_SetCursor(0,5);
 		ST7735_OutString("Welcome to Our Game!");
@@ -407,7 +484,7 @@ int main(void){
 		while(button() == 0){
 		}
 	ST7735_FillScreen(0x00);   
-	*/
+	
 	
 while(1){
 		
@@ -429,7 +506,7 @@ while(1){
 		DrawBoss();
 		DrawPlayerAttack();
 		StraightAttack();
-		//WaveAttack();
+		WaveAttack();
 		// ** DRAWING SPRITES ENDS HERE
 	
 }
