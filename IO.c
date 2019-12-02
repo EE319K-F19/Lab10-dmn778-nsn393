@@ -16,10 +16,12 @@
 void PortF_Init(void){
 	SYSCTL_RCGCGPIO_R |= 0x20; // port f clock
 	while((SYSCTL_RCGCGPIO_R & 0x20) != 0x20){}
-		GPIO_PORTF_DIR_R &= ~0x10; //pf4 input
+		  GPIO_PORTF_LOCK_R = 0x4C4F434B;     /* unlock commit register */
+    GPIO_PORTF_CR_R = 0x01; 
+		GPIO_PORTF_DIR_R &= ~0x11; //pf4 input
 		GPIO_PORTF_DIR_R |= 0x04; //pf2 heartbeat output
-		GPIO_PORTF_DEN_R |= 0x14; //enable 
-		GPIO_PORTF_PUR_R |= 0x10; //pull up resistor
+		GPIO_PORTF_DEN_R |= 0x15; //enable 
+		GPIO_PORTF_PUR_R |= 0x11; //pull up resistor
 
 }
 
@@ -42,6 +44,13 @@ void IO_HeartBeat(void) {
 uint32_t button(void) {
  // if pressed return 1, else return 0
 	if((GPIO_PORTF_DATA_R & 0x10) == 0x10){
+		return 0;
+	}
+	return 1;
+}
+
+uint32_t button2(void) {
+	if((GPIO_PORTF_DATA_R & 0x01) == 0x01){
 		return 0;
 	}
 	return 1;

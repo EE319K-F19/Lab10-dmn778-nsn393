@@ -30,4 +30,6 @@ void IO_HeartBeat(void);
 // Output: none
 void IO_Touch(void);
 
+uint32_t button2(void);
+
 #endif
