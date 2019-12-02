@@ -43,10 +43,11 @@ void ClearAttacks(void);
 // GAME STARTS HERE
 
 // GLOBAL VARIABLES
+uint32_t piazza = 1;
 uint32_t Data;        // 12-bit ADC
 int32_t pos;    // 32-bit fixed-point 0.001 cm
 int32_t xPosition, yPosition;
-uint32_t piazza = 1;
+
 int32_t ADCStatus=0; // 1 means new data available
 int32_t xADCMail,yADCMail;
 
@@ -116,6 +117,15 @@ StateType WaveAttackStruct[WaveAttackStructSize] = {
 	{28, 32, bossattack,blackbossattack, bossattackwidth,bossattackheight,0,1,0}, 
 };
 
+const uint32_t TracerAttackStructSize = 4;
+typedef struct State StateType;
+StateType TracerAttackStruct[WaveAttackStructSize] = {
+	{0, 0, horizontaltracer,deadhorizontaltracer, horizontaltracerwidth,horizontaltracerheight,0,1,0}, // WAVE attacks
+	{0, 0, horizontaltracer,deadhorizontaltracer, horizontaltracerwidth,horizontaltracerheight,0,1,0}, 
+	{0, 0, verticaltracer,deadverticaltracer, verticaltracerwidth,verticaltracerheight,0,1,0},
+	{0, 0, verticaltracer,deadverticaltracer, verticaltracerwidth,verticaltracerheight,0,1,0},
+};
+
 
 
 
@@ -183,10 +193,12 @@ void SysTick_Handler(void){
 //--- TIMER0A_HANDLER MAKES THE BOSS MOVE
 uint8_t straightattackflag = 0;
 uint8_t waveattackflag = 0;
+uint8_t tracerattackflag = 0;
 void Timer0A_Handler(void){
   TIMER0_ICR_R = TIMER_ICR_TATOCINT;  // acknowledge timer0A timeout
 	straightattackflag++;
 	waveattackflag++;
+	tracerattackflag++;
 }
 
 void DAC_Init(void){
@@ -427,6 +439,43 @@ void WaveAttack(void){
 		
 	}
 }
+void TracerAttackInit(void){
+	uint32_t i,x,x2,y,y2,xstart;
+	x = xRandom();
+	x2 = xRandom();
+	y = yRandom();
+	y2 = yRandom();
+	TracerAttackStruct[0].x = 0;
+	TracerAttackStruct[0].y = y;
+	TracerAttackStruct[1].x = 0;
+	TracerAttackStruct[1].y = y2;
+	TracerAttackStruct[2].x = x;
+	TracerAttackStruct[2].y = 160;
+	TracerAttackStruct[3].x = x2;
+	TracerAttackStruct[3].y = 160;
+	
+	
+}
+
+
+void TracerAttack(void){
+	uint32_t i;
+	if(tracerattackflag >10){
+		for(i=0;i<TracerAttackStructSize;i++){
+			ST7735_DrawBitmap(TracerAttackStruct[i].x, TracerAttackStruct[i].y, TracerAttackStruct[i].image, TracerAttackStruct[i].width,TracerAttackStruct[i].height);	// when collides, disappear		
+		}
+	}
+	if(tracerattackflag >20){
+		for(i=0;i<TracerAttackStructSize;i++){
+			ST7735_DrawBitmap(TracerAttackStruct[i].x, TracerAttackStruct[i].y, TracerAttackStruct[i].image, TracerAttackStruct[i].width,TracerAttackStruct[i].height);	// when collides, disappear		
+			if(CheckCollision(&sprite[0], &TracerAttackStruct[i]) == 1){
+					TracerAttackStruct[i].moving = 0; // the attack collides with the player sprite, make it not move anymore
+					ST7735_DrawBitmap(TracerAttackStruct[i].x, TracerAttackStruct[i].y, TracerAttackStruct[i].dead, TracerAttackStruct[i].width,TracerAttackStruct[i].height);	// when collides, disappear
+					sprite[0].health--; // player takes damage
+			}
+		}
+	}
+}
 
 void CheckEnd(void){
 		ST7735_SetCursor(0,0);
@@ -478,11 +527,14 @@ int main(void){
 	SysTick_Init();
 	Timer0A_Init(0xFFFFFF);
 	Timer1A_Init(2950); //11.025 kHz = 11025 = 9000000/x x=816
-	Random_Init(NVIC_ST_CURRENT_R);
   EnableInterrupts();
 	WaveAttackInit();
+	TracerAttackInit();
+	
+	
 	//ST7735_InitR(INITR_REDTAB); 
   ST7735_FillScreen(0x00);            // set screen to black
+		
 	
 	
 	// TITLE SCREEN
@@ -495,6 +547,7 @@ int main(void){
 		while(button() == 0){
 		}
 	ST7735_FillScreen(0x00);   
+	Random_Init(NVIC_ST_CURRENT_R);
 	
 	
 while(1){
@@ -511,19 +564,16 @@ while(1){
 	
 		CheckEnd();
 	
-		
-		if(button2() == 1){
-			ST7735_SetCursor(5,10);
-			ST7735_OutString("POWERUP");
+		if(button2() == 1 && piazza > 0){
 			ClearAttacks();
 		}
-	
 		// ** DRAWING SPRITES STARTS HERE
 		DrawPlayer();
 		DrawBoss();
 		DrawPlayerAttack();
 		StraightAttack();
 		WaveAttack();
+		TracerAttack();
 		// ** DRAWING SPRITES ENDS HERE
 	
 }

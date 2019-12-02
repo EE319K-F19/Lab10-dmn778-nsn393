@@ -55,4 +55,3 @@ uint32_t button2(void) {
 	}
 	return 1;
 }
-
