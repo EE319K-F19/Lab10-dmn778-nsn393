@@ -36,6 +36,7 @@ void PortF_Init(void);
 uint32_t button(void);
 void DrawBossAttack(void);
 void DAC_Out(uint32_t data);
+void ClearAttacks(void);
 
 
 //********************************************************************************** 
@@ -45,7 +46,7 @@ void DAC_Out(uint32_t data);
 uint32_t Data;        // 12-bit ADC
 int32_t pos;    // 32-bit fixed-point 0.001 cm
 int32_t xPosition, yPosition;
-
+uint32_t piazza = 1;
 int32_t ADCStatus=0; // 1 means new data available
 int32_t xADCMail,yADCMail;
 
@@ -455,7 +456,17 @@ void CheckEnd(void){
 		}
 }
 
-
+void ClearAttacks(void){
+	for(int i = 0; i<WaveAttackStructSize; i++){
+		WaveAttackStruct[i].moving = 0; // the attack collides with the player sprite, make it not move anymore
+		ST7735_DrawBitmap(WaveAttackStruct[i].x, WaveAttackStruct[i].y, WaveAttackStruct[i].dead, WaveAttackStruct[i].width,WaveAttackStruct[i].height);
+	}
+	for(int i = 0; i<StraightAttackStructSize; i++){
+		BossAttack[i].moving = 0; // if the attack is offscreen, make it not move anymore
+		ST7735_DrawBitmap(BossAttack[i].x, BossAttack[i].y, BossAttack[i].dead, BossAttack[i].width,BossAttack[i].height);
+	}
+	piazza--;
+}
 
 int main(void){
   DisableInterrupts();
@@ -500,6 +511,12 @@ while(1){
 	
 		CheckEnd();
 	
+		
+		if(button2() == 1){
+			ST7735_SetCursor(5,10);
+			ST7735_OutString("POWERUP");
+			ClearAttacks();
+		}
 	
 		// ** DRAWING SPRITES STARTS HERE
 		DrawPlayer();
