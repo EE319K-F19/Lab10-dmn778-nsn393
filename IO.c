@@ -25,6 +25,13 @@ void PortF_Init(void){
 
 }
 
+void PortE_Init(void){
+		SYSCTL_RCGCGPIO_R |= 0x10; // port e clock
+		while((SYSCTL_RCGCGPIO_R & 0x10) != 0x10){}
+		GPIO_PORTE_DIR_R &= ~0x06; //pE1, PE2 input
+		GPIO_PORTE_DEN_R |= 0x06; //enable 
+
+}
 
 //------------IO_HeartBeat------------
 // Toggle the output state of the  LED.
@@ -43,14 +50,14 @@ void IO_HeartBeat(void) {
 // Output: none
 uint32_t button(void) {
  // if pressed return 1, else return 0
-	if((GPIO_PORTF_DATA_R & 0x10) == 0x10){
+	if((((GPIO_PORTF_DATA_R & 0x10) == 0x10) && (GPIO_PORTE_DATA_R & 0x02) == 0x02)){
 		return 0;
 	}
 	return 1;
 }
 
 uint32_t button2(void) {
-	if((GPIO_PORTF_DATA_R & 0x01) == 0x01){
+	if((((GPIO_PORTF_DATA_R & 0x01) == 0x01) && (GPIO_PORTE_DATA_R & 0x04) == 0x04)){
 		return 0;
 	}
 	return 1;
